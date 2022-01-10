@@ -34,8 +34,6 @@ class Login extends React.Component {
 
   render() {
     const { email, senha, redirect } = this.state;
-
-    // = /\S+@\S+\.\S+/
     const regexEmail = /\S+@\S+\.\S+/;
     const validEmail = regexEmail.test(email);
     const VALID_PASSWORD = 6;
@@ -60,13 +58,13 @@ class Login extends React.Component {
         <label
           htmlFor="password"
         >
-          senha:
+          Senha:
           <input
             value={ senha }
             onChange={ this.handleChange }
             name="senha"
             data-testid="password-input"
-            typeof="password"
+            type="password"
           />
         </label>
 
