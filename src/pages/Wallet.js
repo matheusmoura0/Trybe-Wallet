@@ -55,7 +55,8 @@ class Wallet extends React.Component {
     const {
       value, description,
       method, tag } = this.state;
-    const { userEmail, teste, userExpences } = this.props;
+    const { userEmail, teste, userExpences, expenses } = this.props;
+    console.log(expenses);
     return (
       <div>
         <header>
@@ -153,6 +154,46 @@ class Wallet extends React.Component {
               <th>Moeda de conversão</th>
               <th>Editar/Excluir</th>
             </thead>
+            <tbody>
+              {expenses.map((x) => (
+                <tr key={ x.id }>
+                  <td>
+                    { x.description}
+                  </td>
+                  <td>
+                    { x.tag}
+                  </td>
+                  <td>
+                    { x.method }
+                  </td>
+                  <td>
+                    { x.value}
+                  </td>
+                  <td>
+                    {x.exchangeRates[x.currency].name }
+                  </td>
+                  <td>
+                    {Number(x.exchangeRates[x.currency].ask).toFixed(2)}
+                  </td>
+                  <td>
+                    { (Number(x.value)
+                     * Number(x.exchangeRates[x.currency].ask)).toFixed(2)}
+                  </td>
+                  <td>
+                    {x.exchangeRates[x.currency].name}
+                  </td>
+                  <td>
+                    Real
+                  </td>
+                  <button
+                    data-testid="delete-btn"
+                    type="button"
+                  >
+                    Delete
+                  </button>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </form>
       </div>);
@@ -178,6 +219,7 @@ const mapStateToProps = (state) => ({
     acc += curr.value * curr.exchangeRates[curr.currency].ask;
     return acc;
   }, 0),
+  expenses: state.wallet.expenses,
 
 });
 
@@ -187,5 +229,6 @@ Wallet.propTypes = {
   teste: PropTypes.func.isRequired,
   currencies: PropTypes.func.isRequired,
   userExpences: PropTypes.func.isRequired,
+  expenses: PropTypes.func.isRequired,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
